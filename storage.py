@@ -40,3 +40,32 @@ def add_row(sheet, data):
         ws.append([data.get(h, "") for h in SHEETS[sheet]])
         wb.save(FILE)
     return data["id"]
+
+def get_row(sheet, id_):
+    return next((r for r in all_rows(sheet) if r["id"] == id_), None)
+
+
+def update_row(sheet, id_, data):
+    with LOCK:
+        wb = _open()
+        ws = wb[sheet]
+        for row in ws.iter_rows(min_row=2):
+            if row[0].value == id_:
+                for i, h in enumerate(SHEETS[sheet]):
+                    if h in data:
+                        row[i].value = data[h]
+                wb.save(FILE)
+                return True
+    return False
+
+
+def delete_row(sheet, id_):
+    with LOCK:
+        wb = _open()
+        ws = wb[sheet]
+        for row in ws.iter_rows(min_row=2):
+            if row[0].value == id_:
+                ws.delete_rows(row[0].row)
+                wb.save(FILE)
+                return True
+    return False

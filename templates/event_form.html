@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-3">{{ 'Edit' if event else 'Add' }} Event</h3>
+<form method="post" class="card card-body shadow-sm">
+  <div class="row g-3">
+    <div class="col-md-8">
+      <label class="form-label">Title</label>
+      <input name="title" class="form-control" required value="{{ event.title if event }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Category</label>
+      <select name="category" class="form-select">
+        {% for c in categories %}
+        <option {{ 'selected' if event and event.category == c }}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Date</label>
+      <input type="date" name="date" class="form-control" required value="{{ event.date if event }}">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Time</label>
+      <input type="time" name="time" class="form-control" required value="{{ event.time if event }}">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Venue</label>
+      <input name="venue" class="form-control" required value="{{ event.venue if event }}">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Capacity</label>
+      <input type="number" min="0" name="capacity" class="form-control" value="{{ event.capacity if event }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Organizer</label>
+      <input name="organizer" class="form-control" required value="{{ event.organizer if event }}">
+    </div>
+    <div class="col-12">
+      <label class="form-label">Description</label>
+      <textarea name="description" rows="3" class="form-control">{{ event.description if event }}</textarea>
+    </div>
+  </div>
+  <div class="mt-3">
+    <button class="btn btn-success">Save</button>
+    <a href="{{ url_for('events') }}" class="btn btn-outline-secondary">Cancel</a>
+  </div>
+</form>
+{% endblock %}

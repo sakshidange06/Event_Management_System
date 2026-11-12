@@ -11,6 +11,8 @@
   <div class="container">
     <a class="navbar-brand" href="/">🎉 Event Manager</a>
     {% if session.user_id %}
+    <a class="nav-link text-white" href="{{ url_for('events') }}">Events</a>
+    <a class="nav-link text-white" href="{{ url_for('add_event') }}">Add Event</a>
     <span class="navbar-text text-white ms-auto me-3">Hi, {{ session.user_name }}</span>
     <a class="btn btn-outline-light btn-sm" href="{{ url_for('logout') }}">Logout</a>
     {% endif %}
