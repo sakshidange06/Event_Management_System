@@ -253,9 +253,8 @@ Add your screenshots to a `screenshots/` folder and link them here.
 
 ## 👤 Author
 
-**Your Name**
-Your College / Department · Academic Year
-GitHub: [@your-username](https://github.com/your-username)
+**Sakshi Dange**
+GitHub: [@sakshidange06](https://github.com/sakshidange06)
 
 ---
 
