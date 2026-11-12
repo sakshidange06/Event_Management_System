@@ -6,10 +6,16 @@ A web application to create, organize and track events, built with **Python, Fla
 ![Flask](https://img.shields.io/badge/Flask-3.x-000000?logo=flask&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
 ![Storage](https://img.shields.io/badge/Storage-Excel%20(OpenPyXL)-217346?logo=microsoftexcel&logoColor=white)
+![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?logo=render&logoColor=white)
+
+### 🌐 Live Demo: [https://event-management-system-71o9.onrender.com](https://event-management-system-71o9.onrender.com)
+
+> Hosted on Render's free plan. If the site has been idle, the first load can take about a minute while it wakes up.
 
 ---
 
 ## 📌 Table of Contents
+- [Live Demo](#-live-demo)
 - [About the Project](#-about-the-project)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
@@ -19,9 +25,21 @@ A web application to create, organize and track events, built with **Python, Fla
 - [Data Storage](#-data-storage)
 - [Application Routes](#-application-routes)
 - [Security](#-security)
+- [Deployment](#-deployment)
 - [Screenshots](#-screenshots)
 - [Future Scope](#-future-scope)
 - [Author](#-author)
+
+---
+
+## 🌐 Live Demo
+
+**Try it here:** [https://event-management-system-71o9.onrender.com](https://event-management-system-71o9.onrender.com)
+
+1. Open the link and click **Register** to create an account.
+2. Log in and add, edit, search and delete events.
+
+> ⚠️ **Demo note:** the free hosting plan has a temporary file system, so `data.xlsx` (users and events) can be reset when the service restarts or redeploys. Please treat the live site as a demo, and register again if your account is gone.
 
 ---
 
@@ -46,6 +64,7 @@ The storage layer is kept separate (`storage.py`), so the Excel file can later b
 | Search by keyword and filter by category | ✅ |
 | Data storage in Excel (OpenPyXL) | ✅ |
 | Dark, responsive UI (Bootstrap + custom CSS) | ✅ |
+| Deployed online on Render | ✅ |
 | Dashboard with event statistics | 🔜 |
 | Report generation with CSV download | 🔜 |
 
@@ -73,7 +92,7 @@ The storage layer is kept separate (`storage.py`), so the Excel file can later b
 Event_Management/
 ├── app.py                # Flask routes (auth, event CRUD, search)
 ├── storage.py            # Excel read/write layer (OpenPyXL)
-├── requirements.txt      # Python dependencies
+├── requirements.txt      # Python dependencies (includes gunicorn)
 ├── data.xlsx             # Created automatically on first run
 ├── README.md
 ├── templates/
@@ -182,7 +201,27 @@ Data lives in `data.xlsx`, which is created automatically the first time you run
 - Passwords are hashed with Werkzeug (`generate_password_hash`), never stored as plain text.
 - Pages are protected with a `@login_required` decorator.
 - Delete actions use POST requests with a confirmation prompt.
-- **Before deploying,** change `app.secret_key` in `app.py` to a long random value and set `debug=False`.
+- **Before deploying,** change `app.secret_key` in `app.py` to a long random value and set `debug=False` (Gunicorn on Render already ignores `debug`).
+
+---
+
+## ☁️ Deployment
+
+The app is deployed on **Render** (free plan) and connected to this GitHub repository, so every push to the main branch triggers a new deploy.
+
+| Setting | Value |
+|---|---|
+| Language | Python 3 |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `gunicorn app:app` |
+| Instance Type | Free |
+
+**To deploy your own copy:**
+1. Fork or push the project to your GitHub account.
+2. Make sure `gunicorn` is listed in `requirements.txt`.
+3. On [render.com](https://render.com), click **New → Web Service**, connect the repo and use the settings above.
+
+**Limitations of the free plan:** the service sleeps after about 15 minutes without traffic, and files such as `data.xlsx` are not kept permanently. For lasting data, move storage to a database (see Future Scope).
 
 ---
 
@@ -204,7 +243,7 @@ Add your screenshots to a `screenshots/` folder and link them here.
 
 - Dashboard with totals, upcoming and past events, and category charts
 - Report generation with filters and CSV download
-- Migration from Excel to **MySQL**
+- Migration from Excel to **MySQL or PostgreSQL** so data survives restarts on Render
 - Attendee registration for events with seat limits
 - Admin and user roles
 - Event poster image upload
